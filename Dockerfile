@@ -1,4 +1,4 @@
-FROM armv7/armhf-ubuntu:14.04
+FROM 192.168.11.201:55000/docker-registry/armhf-devel-ubuntu14.04:latest
 
 #ROS indigo installation
 RUN update-locale LANG=C LANGUAGE=C LC_ALL=C LC_MESSAGES=POSIX && \
@@ -18,25 +18,19 @@ RUN /bin/bash -c '. /opt/ros/indigo/setup.bash; catkin_make' && \
     echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc && \
     echo "unset GTK_IM_MODULE" >> ~/.bashrc
 
-#Development Tools
+# ROS packages instalation
 RUN apt-get update && \
-    apt-get install -y tmux \
-                       wget zip unzip curl \
-                       bash-completion git \
-                       software-properties-common 
-# Vim
-RUN apt-get install -y  vim-nox && \
-    curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh -o /tmp/install.sh
-WORKDIR /tmp
-RUN /bin/bash -c "sh ./install.sh" && \
-    git clone https://github.com/tomasr/molokai && \
-    mkdir -p ~/.vim/colors && \
-    cp ./molokai/colors/molokai.vim ~/.vim/colors/
-COPY .vimrc /root/.vimrc
-# Tmux
-WORKDIR /tmp
-COPY .tmux.conf /root/.tmux.conf
-
+    apt-get install -y ros-indigo-rosbridge-server \
+                       ros-indigo-ros-control \
+                       ros-indigo-ros-controllers \
+                       ros-indigo-joy \
+                       spacenavd libmotif4 ros-indigo-spacenav-node \
+                       ros-indigo-openni2-camera \
+                       ros-indigo-openni2-launch \
+                       ros-indigo-usb-cam \
+                       ros-indigo-image-view \
+                       ros-indigo-rosbridge-server \
+                       ros-indigo-tf2-web-republisher
 
 WORKDIR /root/catkin_ws
 CMD ["/bin/bash"]
