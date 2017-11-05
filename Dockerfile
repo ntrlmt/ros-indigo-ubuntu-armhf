@@ -1,4 +1,4 @@
-FROM 192.168.11.201:55000/docker-registry/armhf-devel-ubuntu14.04:latest
+FROM armhf-devel-ubuntu14.04:latest
 
 #ROS indigo installation
 RUN update-locale LANG=C LANGUAGE=C LC_ALL=C LC_MESSAGES=POSIX && \
@@ -20,8 +20,7 @@ RUN /bin/bash -c '. /opt/ros/indigo/setup.bash; catkin_make' && \
 
 # ROS packages instalation
 RUN apt-get update && \
-    apt-get install -y ros-indigo-rosbridge-server \
-                       ros-indigo-ros-control \
+    apt-get install -y ros-indigo-ros-control \
                        ros-indigo-ros-controllers \
                        ros-indigo-joy \
                        spacenavd libmotif4 ros-indigo-spacenav-node \
@@ -30,7 +29,9 @@ RUN apt-get update && \
                        ros-indigo-usb-cam \
                        ros-indigo-image-view \
                        ros-indigo-rosbridge-server \
-                       ros-indigo-tf2-web-republisher
+                       ros-indigo-tf2-web-republisher \
+                       ros-indigo-web-video-server \
+                       ros-indigo-interactive-marker-proxy
 
 WORKDIR /root/catkin_ws
 CMD ["/bin/bash"]
