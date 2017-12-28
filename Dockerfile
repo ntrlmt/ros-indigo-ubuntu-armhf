@@ -1,4 +1,4 @@
-FROM armhf-devel-ubuntu14.04:latest
+FROM armhf-devel-ubuntu14.04-jp:latest
 
 #ROS indigo installation
 RUN update-locale LANG=C LANGUAGE=C LC_ALL=C LC_MESSAGES=POSIX && \
@@ -32,6 +32,10 @@ RUN apt-get update && \
                        ros-indigo-tf2-web-republisher \
                        ros-indigo-web-video-server \
                        ros-indigo-interactive-marker-proxy
+# PS4 Dual shock 4
+RUN apt-get install -y python-pip && \
+    pip install ds4drv && \
+    apt-get install -y bluez-utils
 
 WORKDIR /root/catkin_ws
 CMD ["/bin/bash"]
